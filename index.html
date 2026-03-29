@@ -10,6 +10,8 @@
         const ROCK = 'rock';
         const PAPER = 'paper';
         const SCISSORS = 'scissors';
+        let humanScore = 0;
+        let computerScore = 0;
 
         function getComputerChoice() {
             switch (Math.floor(Math.random() * 3)) {
@@ -23,8 +25,10 @@
         }
 
         function getHumanChoice() {
-            return humanChoice = prompt("Type your choice: rock, paper or scissors").toLowerCase();
+            const userChoice = prompt("Type your choice: rock, paper or scissors");
+            return userChoice.toLowerCase();
         }
+
     </script>
 </body>
 </html>
