@@ -2,6 +2,9 @@
 
 A simple browser-based implementation of the classic Rock, Paper, Scissors game. This project is built using JavaScript and is played through the browser's console and prompt windows.
 
+## 🚀 Live Demo
+[View the Live Preview here](https://felippemenezes.github.io/recipes-top/)
+
 ## Features
 
 - **Interactive Gameplay**: Uses `prompt()` to receive user input directly in the browser.
