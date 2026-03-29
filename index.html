@@ -12,7 +12,6 @@
         const SCISSORS = 'scissors';
         let humanScore = 0;
         let computerScore = 0;
-        let roundNumber = 0;
 
         function getComputerChoice() {
             switch (Math.floor(Math.random() * 3)) {
@@ -30,16 +29,12 @@
             return userChoice.toLowerCase();
         }
 
-        const humanChoice = getHumanChoice();
-        const computerChoice = getComputerChoice();
-
         function playRound(humanChoice, computerChoice) {
             if (humanChoice === computerChoice) {
                 console.log("It's a tie! Play again!");
                 return "It's a tie!";
             } else if (humanChoice === ROCK && computerChoice === PAPER) {
                 computerScore++;
-                roundNumber++;
                 console.log("You lose! Paper beats rock.");
                 return "You lose! Paper beats rock."
             } else if (humanChoice === ROCK && computerChoice === SCISSORS) {
@@ -68,7 +63,29 @@
             }
         }
 
-        const result = playRound(humanChoice, computerChoice);
+        function playGame() {
+            let roundNumber = 0;
+            while (humanScore < 3 && computerScore < 3) {
+                const humanChoice = getHumanChoice();
+                const computerChoice = getComputerChoice();
+                result = playRound(humanChoice, computerChoice);
+                if (result.includes("tie")) {
+                    continue;
+                } else {
+                    roundNumber++;
+                }
+                console.log(`Round ${roundNumber}/5`);
+                console.log(`Score: You ${humanScore} x ${computerScore} Computer`);
+            }
+            if (humanScore > computerScore) {
+                console.log("You won the game!");
+            } else if (humanScore < computerScore) {
+                console.log("You lost the game!");
+            }
+        }
+
+        playGame();
+
     </script>
 </body>
 </html>
