@@ -97,13 +97,13 @@ const greeting = document.createElement("h3");
 greeting.textContent = "Let's play! Make your choice!";
 
 const rockButton = document.createElement("button");
-rockButton.textContent = "Rock";
+rockButton.textContent = "✊ Rock";
 
 const paperButton = document.createElement("button");
-paperButton.textContent = "Paper";
+paperButton.textContent = "🤚 Paper";
 
 const scissorsButton = document.createElement("button");
-scissorsButton.textContent = "Scissors";
+scissorsButton.textContent = "✌ Scissors";
 
 const div = document.createElement("div");
 
