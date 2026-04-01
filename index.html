@@ -68,7 +68,7 @@
             while (humanScore < 3 && computerScore < 3) {
                 const humanChoice = getHumanChoice();
                 const computerChoice = getComputerChoice();
-                result = playRound(humanChoice, computerChoice);
+                const result = playRound(humanChoice, computerChoice);
                 if (result.includes("tie")) {
                     continue;
                 } else {
