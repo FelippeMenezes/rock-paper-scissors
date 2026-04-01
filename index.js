@@ -1,8 +1,13 @@
+// /home/dell/Felippe/top/rock-paper-scissors/index.js
+
 const ROCK = 'rock';
 const PAPER = 'paper';
 const SCISSORS = 'scissors';
 let humanScore = 0;
 let computerScore = 0;
+
+const capitalize = (word) =>
+    word[0].toUpperCase() + word.slice(1);
 
 function getComputerChoice() {
     switch (Math.floor(Math.random() * 3)) {
@@ -15,64 +20,106 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    const userChoice = prompt("Type your choice: rock, paper or scissors");
-    return userChoice.toLowerCase();
-}
-
 function playRound(humanChoice, computerChoice) {
     if (humanChoice === computerChoice) {
-        console.log("It's a tie! Play again!");
-        return "It's a tie!";
+        messageResult = `It's a tie! You both chose ${capitalize(humanChoice)}. Play again! `;
     } else if (humanChoice === ROCK && computerChoice === PAPER) {
         computerScore++;
-        console.log("You lose! Paper beats rock.");
-        return "You lose! Paper beats rock."
+        messageResult = `Computer chose ${capitalize(computerChoice)}. You lose! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
     } else if (humanChoice === ROCK && computerChoice === SCISSORS) {
         humanScore++;
-        console.log("You win! Rock beats scissors.");
-        return "You win! Rock beats scissors."
+        messageResult = `Computer chose ${capitalize(computerChoice)}. You win! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
     } else if (humanChoice === PAPER && computerChoice === SCISSORS) {
         computerScore++;
-        console.log("You lose! Scissors beats paper.");
-        return "You lose! Scissors beats paper."
+        messageResult = `Computer chose ${capitalize(computerChoice)}. You lose! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
     } else if (humanChoice === PAPER && computerChoice === ROCK) {
         humanScore++;
-        console.log("You win! Paper beats rock.");
-        return "You win! Paper beats rock."
+        messageResult = `Computer chose ${capitalize(computerChoice)}. You win! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
     } else if (humanChoice === SCISSORS && computerChoice === ROCK) {
         computerScore++;
-        console.log("You lose! Rock beats scissors.");
-        return "You lose! Rock beats scissors."
+        messageResult = `Computer chose ${capitalize(computerChoice)}. You lose! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
     } else if (humanChoice === SCISSORS && computerChoice === PAPER) {
         humanScore++;
-        console.log("You win! Scissors beats paper.");
-        return "You win! Scissors beats paper."
-    } else {
-        console.log("Invalid choice!");
-        return "Invalid choice!";
+        messageResult = `Computer chose ${capitalize(computerChoice)}. You win! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
     }
 }
 
-function playGame() {
-    let roundNumber = 0;
-    while (humanScore < 3 && computerScore < 3) {
-        const humanChoice = getHumanChoice();
-        const computerChoice = getComputerChoice();
-        const result = playRound(humanChoice, computerChoice);
-        if (result.includes("tie")) {
-            continue;
-        } else {
-            roundNumber++;
+function checkGameOver() {
+    if (humanScore === 5 || computerScore === 5) {
+        rockButton.remove();
+        paperButton.remove();
+        scissorsButton.remove();
+        greeting.remove();
+
+        if (humanScore === 5) {
+            const winner = document.createElement("h2");
+            winner.textContent = "Game over! You win!";
+            document.body.appendChild(winner);
+        } else if (computerScore === 5) {
+            const loser = document.createElement("h2");
+            loser.textContent = "Game over! You lose!";
+            document.body.appendChild(loser);
         }
-        console.log(`Round ${roundNumber}/5`);
-        console.log(`Score: You ${humanScore} x ${computerScore} Computer`);
-    }
-    if (humanScore > computerScore) {
-        console.log("You won the game!");
-    } else if (humanScore < computerScore) {
-        console.log("You lost the game!");
-    }
+
+        const playAgainButton = document.createElement("button");
+        playAgainButton.textContent = "Play again?";
+        div.appendChild(playAgainButton);
+        playAgainButton.style = "background: red; color: white; font-weight: bold; padding: 10px; border-radius: 5px;";
+
+        playAgainButton.addEventListener("click", () => {
+            if (confirm("Are you sure?")) {
+                location.reload();
+            };
+        });
+    };
+};
+
+function playGame(humanChoice) {
+    const computerChoice = getComputerChoice();
+    playRound(humanChoice, computerChoice);
+
+    score.textContent = `Score: You:${humanScore} x ${computerScore} Computer.`;
+    const message = document.createElement("p");
+    message.textContent = messageResult;
+    document.body.appendChild(message);
+
+    checkGameOver();
 }
 
-playGame();
+const gameTitle = document.createElement("h1");
+gameTitle.textContent = "Rock, Paper, Scissors!";
+
+const score = document.createElement("h2");
+score.textContent = `Score: You:${humanScore} x ${computerScore} Computer.`;
+
+const greeting = document.createElement("h3");
+greeting.textContent = "Let's play! Make your choice!";
+
+const rockButton = document.createElement("button");
+rockButton.textContent = "Rock";
+
+const paperButton = document.createElement("button");
+paperButton.textContent = "Paper";
+
+const scissorsButton = document.createElement("button");
+scissorsButton.textContent = "Scissors";
+
+const div = document.createElement("div");
+
+document.body.appendChild(gameTitle);
+document.body.appendChild(score);
+document.body.appendChild(greeting);
+document.body.appendChild(div);
+
+div.appendChild(rockButton);
+div.appendChild(paperButton);
+div.appendChild(scissorsButton);
+
+div.style = "display: flex; justify-content: space-around; max-width: 300px;";
+rockButton.style = "background: blue; color: white; font-weight: bold; padding: 10px; border-radius: 5px;"
+paperButton.style = "background: green; color: white; font-weight: bold; padding: 10px; border-radius: 5px;"
+scissorsButton.style = "background: yellow; color: black; font-weight: bold; padding: 10px; border-radius: 5px;"
+
+rockButton.addEventListener("click", () => playGame(ROCK));
+paperButton.addEventListener("click", () => playGame(PAPER));
+scissorsButton.addEventListener("click", () => playGame(SCISSORS));
