@@ -5,6 +5,7 @@ const PAPER = 'paper';
 const SCISSORS = 'scissors';
 let humanScore = 0;
 let computerScore = 0;
+let messageResult = '';
 
 const capitalize = (word) =>
     word[0].toUpperCase() + word.slice(1);
@@ -115,10 +116,11 @@ div.appendChild(rockButton);
 div.appendChild(paperButton);
 div.appendChild(scissorsButton);
 
+buttonsStyles = " font-weight: bold; padding: 10px; border-radius: 5px;"
 div.style = "display: flex; justify-content: space-around; max-width: 300px;";
-rockButton.style = "background: blue; color: white; font-weight: bold; padding: 10px; border-radius: 5px;"
-paperButton.style = "background: green; color: white; font-weight: bold; padding: 10px; border-radius: 5px;"
-scissorsButton.style = "background: yellow; color: black; font-weight: bold; padding: 10px; border-radius: 5px;"
+rockButton.style = `background: blue; color: white; ${buttonsStyles}`;
+paperButton.style = `background: green; color: white; ${buttonsStyles}`;
+scissorsButton.style = `background: yellow; color: black; ${buttonsStyles}`;
 
 rockButton.addEventListener("click", () => playGame(ROCK));
 paperButton.addEventListener("click", () => playGame(PAPER));
