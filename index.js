@@ -80,9 +80,15 @@ function playGame(humanChoice) {
     playRound(humanChoice, computerChoice);
 
     score.textContent = `Score: You:${humanScore} x ${computerScore} Computer.`;
+
     const message = document.createElement("p");
+    const li = document.createElement("li");
+    const p = document.createElement("p");
+
     message.textContent = messageResult;
-    document.body.appendChild(message);
+
+    ol.appendChild(li);
+    li.appendChild(message);
 
     checkGameOver();
 }
@@ -107,10 +113,13 @@ scissorsButton.textContent = "✌ Scissors";
 
 const div = document.createElement("div");
 
+const ol = document.createElement("ol");
+
 document.body.appendChild(gameTitle);
 document.body.appendChild(score);
 document.body.appendChild(greeting);
 document.body.appendChild(div);
+document.body.appendChild(ol);
 
 div.appendChild(rockButton);
 div.appendChild(paperButton);
