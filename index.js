@@ -101,7 +101,10 @@ function resetGame() {
     selectedChoice = null;
     messageResult = "Select an option to start!";
     messageArea.classList.remove('win', 'tie', 'loss');
-    document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('selected'));
+    const allButtons = document.querySelectorAll('.choice-btn');
+    for (const btn of allButtons) {
+        btn.classList.remove('selected');
+    }
     document.getElementById('history').innerHTML = '';
     updateUI();
 }
@@ -138,7 +141,10 @@ function playGame() {
 
 document.querySelectorAll('.choice-btn').forEach(button => {
     button.addEventListener('click', (e) => {
-        document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('selected'));
+        const allButtons = document.querySelectorAll('.choice-btn');
+        for (const btn of allButtons) {
+            btn.classList.remove('selected');
+        }
 
         button.classList.add('selected');
         selectedChoice = button.dataset.choice;
