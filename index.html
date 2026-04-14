@@ -4,33 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="images/odin.ico">
-    <title>Pedra, Papel e Tesoura</title>
+    <title>Rock, Paper, Scissors</title>
     <link rel="stylesheet" href="index.css">
     <script src="index.js" defer></script>
 </head>
 <body>
     <div class="game-container">
-        <button id="theme-toggle" class="theme-toggle" title="Alternar tema">☀️</button>
-        <h1>Pedra, Papel, Tesoura</h1>
+        <button id="theme-toggle" class="theme-toggle" title="Toggle theme">☀️</button>
+        <h1>Rock, Paper, Scissors</h1>
 
         <div class="scoreboard">
-            <span>Você: <span id="human-score">0</span></span>
+            <span>You: <span id="human-score">0</span></span>
             <span>CPU: <span id="computer-score">0</span></span>
         </div>
 
         <div class="display-area" id="computer-display">?</div>
 
         <div class="choices">
-            <button class="choice-btn" data-choice="rock" title="Pedra">✊</button>
-            <button class="choice-btn" data-choice="paper" title="Papel">🤚</button>
-            <button class="choice-btn" data-choice="scissors" title="Tesoura">✌</button>
+            <button class="choice-btn" data-choice="rock" title="Rock">✊</button>
+            <button class="choice-btn" data-choice="paper" title="Paper">🤚</button>
+            <button class="choice-btn" data-choice="scissors" title="Scissors">✌</button>
         </div>
 
-        <button id="play-button" disabled>JOGAR</button>
+        <button id="play-button" disabled>PLAY</button>
 
-        <div id="message-result">Selecione uma opção para começar!</div>
+        <div id="message-result">Select an option to start!</div>
 
         <ol id="history" class="history-list"></ol>
+
+        <footer class="footer">
+            Developed by <a href="https://github.com/FelippeMenezes" target="_blank" rel="noopener noreferrer">Felippe Menezes</a> for <a href="https://www.theodinproject.com/lessons/foundations-rock-paper-scissors" target="_blank" rel="noopener noreferrer">The Odin Project</a>
+        </footer>
     </div>
 </body>
 </html>

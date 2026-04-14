@@ -39,25 +39,25 @@ function updateUI() {
 
 function playRound(humanChoice, computerChoice) {
     if (humanChoice === computerChoice) {
-        messageResult = `Empate! Ambos escolheram ${capitalize(humanChoice)}.`;
+        messageResult = `It's a tie! Both chose ${capitalize(humanChoice)}.`;
     } else if (humanChoice === ROCK && computerChoice === PAPER) {
         computerScore++;
-        messageResult = `Você perdeu! ${capitalize(computerChoice)} ganha de ${capitalize(humanChoice)}.`;
+        messageResult = `You lost! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
     } else if (humanChoice === ROCK && computerChoice === SCISSORS) {
         humanScore++;
-        messageResult = `Você ganhou! ${capitalize(humanChoice)} ganha de ${capitalize(computerChoice)}.`;
+        messageResult = `You won! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
     } else if (humanChoice === PAPER && computerChoice === SCISSORS) {
         computerScore++;
-        messageResult = `Você perdeu! ${capitalize(computerChoice)} ganha de ${capitalize(humanChoice)}.`;
+        messageResult = `You lost! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
     } else if (humanChoice === PAPER && computerChoice === ROCK) {
         humanScore++;
-        messageResult = `Você ganhou! ${capitalize(humanChoice)} ganha de ${capitalize(computerChoice)}.`;
+        messageResult = `You won! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
     } else if (humanChoice === SCISSORS && computerChoice === ROCK) {
         computerScore++;
-        messageResult = `Você perdeu! ${capitalize(computerChoice)} ganha de ${capitalize(humanChoice)}.`;
+        messageResult = `You lost! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
     } else if (humanChoice === SCISSORS && computerChoice === PAPER) {
         humanScore++;
-        messageResult = `Você ganhou! ${capitalize(humanChoice)} ganha de ${capitalize(computerChoice)}.`;
+        messageResult = `You won! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
     }
 }
 
@@ -84,7 +84,7 @@ function animateComputerChoice(finalChoice, callback) {
 
 function checkGameOver() {
     if (humanScore === 5 || computerScore === 5) {
-        const finalMsg = humanScore === 5 ? "PARABÉNS! Você venceu o jogo!" : "GAME OVER! O computador venceu.";
+        const finalMsg = humanScore === 5 ? "CONGRATULATIONS! You won the game!" : "GAME OVER! The computer won.";
         alert(finalMsg);
         location.reload();
     }
@@ -95,7 +95,7 @@ function playGame() {
 
     playButton.disabled = true;
     const computerChoice = getComputerChoice();
-    messageArea.textContent = "Computador escolhendo...";
+    messageArea.textContent = "Computer choosing...";
 
     animateComputerChoice(computerChoice, () => {
         playRound(selectedChoice, computerChoice);
@@ -113,10 +113,10 @@ function playGame() {
 // Event Listeners
 document.querySelectorAll('.choice-btn').forEach(button => {
     button.addEventListener('click', (e) => {
-        // Remove seleção anterior
+        // Remove previous selection
         document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('selected'));
 
-        // Seleciona novo
+        // Select new
         button.classList.add('selected');
         selectedChoice = button.dataset.choice;
         playButton.disabled = false;
@@ -126,8 +126,20 @@ document.querySelectorAll('.choice-btn').forEach(button => {
 themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     const isLight = document.body.classList.contains('light-mode');
-    // Muda o ícone: se estiver no light, mostra lua para voltar pro dark.
+    // Change icon: if in light mode, show moon to go back to dark.
     themeToggle.textContent = isLight ? '🌙' : '☀️';
 });
 
 playButton.addEventListener('click', playGame);
+
+playButton.addEventListener('mouseenter', () => {
+    if (!selectedChoice) {
+        messageArea.textContent = "Make your choice above";
+    }
+});
+
+playButton.addEventListener('mouseleave', () => {
+    if (!selectedChoice) {
+        messageArea.textContent = "Select an option to start!";
+    }
+});
