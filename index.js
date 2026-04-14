@@ -95,11 +95,22 @@ function animateComputerChoice(finalChoice, callback) {
     tick();
 }
 
+function resetGame() {
+    humanScore = 0;
+    computerScore = 0;
+    selectedChoice = null;
+    messageResult = "Select an option to start!";
+    messageArea.classList.remove('win', 'tie', 'loss');
+    document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('selected'));
+    document.getElementById('history').innerHTML = '';
+    updateUI();
+}
+
 function checkGameOver() {
     if (humanScore === 5 || computerScore === 5) {
         const finalMsg = humanScore === 5 ? "CONGRATULATIONS! You won the game!" : "GAME OVER! The computer won.";
         alert(finalMsg);
-        location.reload();
+        resetGame();
     }
 }
 
@@ -117,7 +128,7 @@ function playGame() {
 
         const li = document.createElement("li");
         li.innerHTML = `
-            <small>You:</small> ${emojis[selectedChoice]} <strong>vs</strong> ${emojis[computerChoice]} <small>CPU:</small>`;
+            <small>You:</small> ${emojis[selectedChoice]} <strong>vs</strong> ${emojis[computerChoice]} <small>:CPU</small>`;
         document.getElementById('history').prepend(li);
 
         playButton.disabled = false;
