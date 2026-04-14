@@ -1,6 +1,6 @@
 :root {
     /* Dark Mode (Default) */
-    --primary: #6366f1;
+    --primary: #2563eb;
     --bg: #0f172a;
     --text: #f1f5f9;
     --card: #1e293b;
@@ -107,7 +107,7 @@ body {
 }
 
 .choice-btn.selected {
-    background: #eef2ff;
+    background: #dbeafe;
     border-color: var(--primary);
     box-shadow: 0 0 0 2px var(--primary);
 }
