@@ -70,9 +70,8 @@ function animateComputerChoice(finalChoice, callback) {
         const current = options[currentIdx % 3];
         computerDisplay.textContent = emojis[current];
         currentIdx++;
-        delay += 35; // Aumenta o delay para reduzir a velocidade
+        delay += 10;
 
-        // Para quando estiver lento o suficiente E na opção correta
         if (delay < 500 || current !== finalChoice) {
             setTimeout(tick, delay);
         } else {
@@ -110,7 +109,6 @@ function playGame() {
     });
 }
 
-// Event Listeners
 document.querySelectorAll('.choice-btn').forEach(button => {
     button.addEventListener('click', (e) => {
         // Remove previous selection
@@ -126,7 +124,6 @@ document.querySelectorAll('.choice-btn').forEach(button => {
 themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('light-mode');
     const isLight = document.body.classList.contains('light-mode');
-    // Change icon: if in light mode, show moon to go back to dark.
     themeToggle.textContent = isLight ? '🌙' : '☀️';
 });
 
