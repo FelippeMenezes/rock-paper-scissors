@@ -72,7 +72,7 @@ function animateComputerChoice(finalChoice, callback) {
         currentIdx++;
         delay += 10;
 
-        if (delay < 500 || current !== finalChoice) {
+        if (delay < 250 || current !== finalChoice) {
             setTimeout(tick, delay);
         } else {
             callback();
@@ -111,10 +111,8 @@ function playGame() {
 
 document.querySelectorAll('.choice-btn').forEach(button => {
     button.addEventListener('click', (e) => {
-        // Remove previous selection
         document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('selected'));
 
-        // Select new
         button.classList.add('selected');
         selectedChoice = button.dataset.choice;
         playButton.disabled = false;
