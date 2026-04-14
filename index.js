@@ -9,7 +9,7 @@ let selectedChoice = null;
 const emojis = {
     [ROCK]: '✊',
     [PAPER]: '🤚',
-    [SCISSORS]: '✌'
+    [SCISSORS]: '✌️'
 };
 
 const computerDisplay = document.getElementById('computer-display');
@@ -38,39 +38,53 @@ function updateUI() {
 }
 
 function playRound(humanChoice, computerChoice) {
+    messageArea.classList.remove('win', 'tie', 'loss');
+
     if (humanChoice === computerChoice) {
         messageResult = `It's a tie! Both chose ${capitalize(humanChoice)}.`;
+        messageArea.classList.add('tie');
     } else if (humanChoice === ROCK && computerChoice === PAPER) {
         computerScore++;
         messageResult = `You lost! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
+        messageArea.classList.add('loss');
     } else if (humanChoice === ROCK && computerChoice === SCISSORS) {
         humanScore++;
         messageResult = `You won! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
+        messageArea.classList.add('win');
     } else if (humanChoice === PAPER && computerChoice === SCISSORS) {
         computerScore++;
         messageResult = `You lost! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
+        messageArea.classList.add('loss');
     } else if (humanChoice === PAPER && computerChoice === ROCK) {
         humanScore++;
         messageResult = `You won! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
+        messageArea.classList.add('win');
     } else if (humanChoice === SCISSORS && computerChoice === ROCK) {
         computerScore++;
         messageResult = `You lost! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
+        messageArea.classList.add('loss');
     } else if (humanChoice === SCISSORS && computerChoice === PAPER) {
         humanScore++;
         messageResult = `You won! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
+        messageArea.classList.add('win');
     }
 }
 
 function animateComputerChoice(finalChoice, callback) {
     const options = [ROCK, PAPER, SCISSORS];
-    let currentIdx = 0;
-    let delay = 70;
+    let currentIndex = 0;
+    let delay = 30;
 
     function tick() {
-        const current = options[currentIdx % 3];
+        const current = options[currentIndex];
         computerDisplay.textContent = emojis[current];
-        currentIdx++;
-        delay += 10;
+
+        currentIndex++;
+        if (currentIndex >= options.length) {
+            currentIndex = 0;
+        }
+
+        delay += 12;
 
         if (delay < 250 || current !== finalChoice) {
             setTimeout(tick, delay);
@@ -94,6 +108,7 @@ function playGame() {
 
     playButton.disabled = true;
     const computerChoice = getComputerChoice();
+    messageArea.classList.remove('win', 'tie', 'loss');
     messageArea.textContent = "Computer choosing...";
 
     animateComputerChoice(computerChoice, () => {
@@ -101,8 +116,9 @@ function playGame() {
         updateUI();
 
         const li = document.createElement("li");
-        li.textContent = messageResult;
-        document.getElementById('history').appendChild(li);
+        li.innerHTML = `
+            <small>You:</small> ${emojis[selectedChoice]} <strong>vs</strong> ${emojis[computerChoice]} <small>CPU:</small>`;
+        document.getElementById('history').prepend(li);
 
         playButton.disabled = false;
         setTimeout(checkGameOver, 500);
@@ -129,12 +145,14 @@ playButton.addEventListener('click', playGame);
 
 playButton.addEventListener('mouseenter', () => {
     if (!selectedChoice) {
+        messageArea.classList.remove('win', 'tie', 'loss');
         messageArea.textContent = "Make your choice above";
     }
 });
 
 playButton.addEventListener('mouseleave', () => {
     if (!selectedChoice) {
+        messageArea.classList.remove('win', 'tie', 'loss');
         messageArea.textContent = "Select an option to start!";
     }
 });

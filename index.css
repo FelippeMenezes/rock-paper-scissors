@@ -1,20 +1,22 @@
 :root {
-    /* Dark Mode (Default) */
-    --primary: #2563eb;
-    --bg: #0f172a;
-    --text: #f1f5f9;
-    --card: #1e293b;
-    --secondary-bg: #334155;
-    --border: #475569;
+    --primary: RoyalBlue;
+    --bg: #292929;
+    --text: White;
+    --card: #343434;
+    --secondary-bg: #292929;
+    --border: DimGray;
+    --success: #3C7F35;
+    --warning: #D39E15;
+    --danger: #BE3E2F;
 }
 
 body.light-mode {
-    /* Light Mode Overrides */
-    --bg: #f8fafc;
-    --text: #1e293b;
-    --card: #ffffff;
-    --secondary-bg: #f1f5f9;
-    --border: #e2e8f0;
+    --primary: Blue;
+    --bg: GhostWhite;
+    --text: DarkSlateGray;
+    --card: White;
+    --secondary-bg: AliceBlue;
+    --border: LightGray;
 }
 
 body {
@@ -133,36 +135,62 @@ body {
 
 #message-result {
     margin-top: 1.5rem;
-    min-height: 3em;
+    min-height: 1.4em;
     line-height: 1.4;
+    padding: 0.75rem 0;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#message-result.win {
+    background-color: var(--success);
+    color: white;
+}
+#message-result.tie {
+    background-color: var(--warning);
+    color: white;
+}
+#message-result.loss {
+    background-color: var(--danger);
+    color: white;
 }
 
 .history-list {
-    max-height: 150px;
-    overflow-y: auto;
-    text-align: left;
-    font-size: 0.9rem;
+    text-align: center;
+    font-size: 1.2rem;
     margin-top: 1rem;
-    padding-left: 1.5rem;
+    padding: 0;
+    list-style-position: inside;
 }
 
-.footer {
-    margin-top: 2rem;
+.history-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-family: monospace;
+}
+
+.header {
+    margin-bottom: 2rem;
     font-size: 0.85rem;
     color: var(--text);
     opacity: 0.7;
-    border-top: 1px solid var(--border);
-    padding-top: 1rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
 }
 
-.footer a {
+.header a {
     color: var(--primary);
     text-decoration: none;
     font-weight: 600;
     transition: opacity 0.2s;
 }
 
-.footer a:hover {
+.header a:hover {
     text-decoration: underline;
     opacity: 1;
 }
