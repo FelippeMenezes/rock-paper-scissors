@@ -1,5 +1,3 @@
-// /home/dell/Felippe/top/rock-paper-scissors/index.js
-
 const ROCK = 'rock';
 const PAPER = 'paper';
 const SCISSORS = 'scissors';
