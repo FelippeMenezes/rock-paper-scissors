@@ -4,6 +4,18 @@ const SCISSORS = 'scissors';
 let humanScore = 0;
 let computerScore = 0;
 let messageResult = '';
+let selectedChoice = null;
+
+const emojis = {
+    [ROCK]: '✊',
+    [PAPER]: '🤚',
+    [SCISSORS]: '✌'
+};
+
+const computerDisplay = document.getElementById('computer-display');
+const playButton = document.getElementById('play-button');
+const messageArea = document.getElementById('message-result');
+const themeToggle = document.getElementById('theme-toggle');
 
 const capitalize = (word) =>
     word[0].toUpperCase() + word.slice(1);
@@ -19,116 +31,103 @@ function getComputerChoice() {
     }
 }
 
+function updateUI() {
+    document.getElementById('human-score').textContent = humanScore;
+    document.getElementById('computer-score').textContent = computerScore;
+    messageArea.textContent = messageResult;
+}
+
 function playRound(humanChoice, computerChoice) {
     if (humanChoice === computerChoice) {
-        messageResult = `It's a tie! You both chose ${capitalize(humanChoice)}. Play again! `;
+        messageResult = `Empate! Ambos escolheram ${capitalize(humanChoice)}.`;
     } else if (humanChoice === ROCK && computerChoice === PAPER) {
         computerScore++;
-        messageResult = `Computer chose ${capitalize(computerChoice)}. You lose! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
+        messageResult = `Você perdeu! ${capitalize(computerChoice)} ganha de ${capitalize(humanChoice)}.`;
     } else if (humanChoice === ROCK && computerChoice === SCISSORS) {
         humanScore++;
-        messageResult = `Computer chose ${capitalize(computerChoice)}. You win! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
+        messageResult = `Você ganhou! ${capitalize(humanChoice)} ganha de ${capitalize(computerChoice)}.`;
     } else if (humanChoice === PAPER && computerChoice === SCISSORS) {
         computerScore++;
-        messageResult = `Computer chose ${capitalize(computerChoice)}. You lose! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
+        messageResult = `Você perdeu! ${capitalize(computerChoice)} ganha de ${capitalize(humanChoice)}.`;
     } else if (humanChoice === PAPER && computerChoice === ROCK) {
         humanScore++;
-        messageResult = `Computer chose ${capitalize(computerChoice)}. You win! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
+        messageResult = `Você ganhou! ${capitalize(humanChoice)} ganha de ${capitalize(computerChoice)}.`;
     } else if (humanChoice === SCISSORS && computerChoice === ROCK) {
         computerScore++;
-        messageResult = `Computer chose ${capitalize(computerChoice)}. You lose! ${capitalize(computerChoice)} beats ${capitalize(humanChoice)}.`;
+        messageResult = `Você perdeu! ${capitalize(computerChoice)} ganha de ${capitalize(humanChoice)}.`;
     } else if (humanChoice === SCISSORS && computerChoice === PAPER) {
         humanScore++;
-        messageResult = `Computer chose ${capitalize(computerChoice)}. You win! ${capitalize(humanChoice)} beats ${capitalize(computerChoice)}.`;
+        messageResult = `Você ganhou! ${capitalize(humanChoice)} ganha de ${capitalize(computerChoice)}.`;
     }
+}
+
+function animateComputerChoice(finalChoice, callback) {
+    const options = [ROCK, PAPER, SCISSORS];
+    let currentIdx = 0;
+    let delay = 70;
+
+    function tick() {
+        const current = options[currentIdx % 3];
+        computerDisplay.textContent = emojis[current];
+        currentIdx++;
+        delay += 35; // Aumenta o delay para reduzir a velocidade
+
+        // Para quando estiver lento o suficiente E na opção correta
+        if (delay < 500 || current !== finalChoice) {
+            setTimeout(tick, delay);
+        } else {
+            callback();
+        }
+    }
+    tick();
 }
 
 function checkGameOver() {
     if (humanScore === 5 || computerScore === 5) {
-        rockButton.remove();
-        paperButton.remove();
-        scissorsButton.remove();
-        greeting.remove();
-
-        if (humanScore === 5) {
-            const winner = document.createElement("h2");
-            winner.textContent = "Game over! You win!";
-            document.body.appendChild(winner);
-        } else if (computerScore === 5) {
-            const loser = document.createElement("h2");
-            loser.textContent = "Game over! You lose!";
-            document.body.appendChild(loser);
-        }
-
-        const playAgainButton = document.createElement("button");
-        playAgainButton.textContent = "Play again?";
-        div.appendChild(playAgainButton);
-        playAgainButton.style = "background: red; color: white; font-weight: bold; padding: 10px; border-radius: 5px;";
-
-        playAgainButton.addEventListener("click", () => {
-            if (confirm("Are you sure?")) {
-                location.reload();
-            };
-        });
-    };
-};
-
-function playGame(humanChoice) {
-    const computerChoice = getComputerChoice();
-    playRound(humanChoice, computerChoice);
-
-    score.textContent = `Score: You:${humanScore} x ${computerScore} Computer.`;
-
-    const message = document.createElement("p");
-    const li = document.createElement("li");
-    const p = document.createElement("p");
-
-    message.textContent = messageResult;
-
-    ol.appendChild(li);
-    li.appendChild(message);
-
-    checkGameOver();
+        const finalMsg = humanScore === 5 ? "PARABÉNS! Você venceu o jogo!" : "GAME OVER! O computador venceu.";
+        alert(finalMsg);
+        location.reload();
+    }
 }
 
-const gameTitle = document.createElement("h1");
-gameTitle.textContent = "Rock, Paper, Scissors!";
+function playGame() {
+    if (!selectedChoice) return;
 
-const score = document.createElement("h2");
-score.textContent = `Score: You:${humanScore} x ${computerScore} Computer.`;
+    playButton.disabled = true;
+    const computerChoice = getComputerChoice();
+    messageArea.textContent = "Computador escolhendo...";
 
-const greeting = document.createElement("h3");
-greeting.textContent = "Let's play! Make your choice!";
+    animateComputerChoice(computerChoice, () => {
+        playRound(selectedChoice, computerChoice);
+        updateUI();
 
-const rockButton = document.createElement("button");
-rockButton.textContent = "✊ Rock";
+        const li = document.createElement("li");
+        li.textContent = messageResult;
+        document.getElementById('history').appendChild(li);
 
-const paperButton = document.createElement("button");
-paperButton.textContent = "🤚 Paper";
+        playButton.disabled = false;
+        setTimeout(checkGameOver, 500);
+    });
+}
 
-const scissorsButton = document.createElement("button");
-scissorsButton.textContent = "✌ Scissors";
+// Event Listeners
+document.querySelectorAll('.choice-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+        // Remove seleção anterior
+        document.querySelectorAll('.choice-btn').forEach(btn => btn.classList.remove('selected'));
 
-const div = document.createElement("div");
+        // Seleciona novo
+        button.classList.add('selected');
+        selectedChoice = button.dataset.choice;
+        playButton.disabled = false;
+    });
+});
 
-const ol = document.createElement("ol");
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    const isLight = document.body.classList.contains('light-mode');
+    // Muda o ícone: se estiver no light, mostra lua para voltar pro dark.
+    themeToggle.textContent = isLight ? '🌙' : '☀️';
+});
 
-document.body.appendChild(gameTitle);
-document.body.appendChild(score);
-document.body.appendChild(greeting);
-document.body.appendChild(div);
-document.body.appendChild(ol);
-
-div.appendChild(rockButton);
-div.appendChild(paperButton);
-div.appendChild(scissorsButton);
-
-buttonsStyles = " font-weight: bold; padding: 10px; border-radius: 5px;"
-div.style = "display: flex; justify-content: space-around; max-width: 300px;";
-rockButton.style = `background: blue; color: white; ${buttonsStyles}`;
-paperButton.style = `background: green; color: white; ${buttonsStyles}`;
-scissorsButton.style = `background: yellow; color: black; ${buttonsStyles}`;
-
-rockButton.addEventListener("click", () => playGame(ROCK));
-paperButton.addEventListener("click", () => playGame(PAPER));
-scissorsButton.addEventListener("click", () => playGame(SCISSORS));
+playButton.addEventListener('click', playGame);

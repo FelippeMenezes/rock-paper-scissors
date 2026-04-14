@@ -4,9 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="images/odin.ico">
-    <title>Rock Paper Scissors Project</title>
+    <title>Pedra, Papel e Tesoura</title>
+    <link rel="stylesheet" href="index.css">
     <script src="index.js" defer></script>
 </head>
 <body>
+    <div class="game-container">
+        <button id="theme-toggle" class="theme-toggle" title="Alternar tema">☀️</button>
+        <h1>Pedra, Papel, Tesoura</h1>
+
+        <div class="scoreboard">
+            <span>Você: <span id="human-score">0</span></span>
+            <span>CPU: <span id="computer-score">0</span></span>
+        </div>
+
+        <div class="display-area" id="computer-display">?</div>
+
+        <div class="choices">
+            <button class="choice-btn" data-choice="rock" title="Pedra">✊</button>
+            <button class="choice-btn" data-choice="paper" title="Papel">🤚</button>
+            <button class="choice-btn" data-choice="scissors" title="Tesoura">✌</button>
+        </div>
+
+        <button id="play-button" disabled>JOGAR</button>
+
+        <div id="message-result">Selecione uma opção para começar!</div>
+
+        <ol id="history" class="history-list"></ol>
+    </div>
 </body>
 </html>
