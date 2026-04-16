@@ -1,4 +1,4 @@
-# rock-paper-scissors
+# ✊ Rock, 🤚 Paper, ✌️ Scissors
 
 A simple browser-based implementation of the classic Rock, Paper, Scissors game. This project is built using JavaScript and features a dynamic user interface.
 
